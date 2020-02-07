@@ -1,0 +1,37 @@
+package base;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import pages.FacebookLoginPage;
+
+import static base.Constants.*;
+
+public class BaseTest {
+
+    private WebDriver driver;
+    private ChromeOptions chromeOptions = new ChromeOptions();
+    protected FacebookLoginPage facebookLoginPage;
+
+    @BeforeClass(alwaysRun = true)
+    public void setUp(){
+        System.setProperty("webdriver.chrome.driver", RESOURCES_PATH + CHROMEDRIVER);
+        chromeOptions.addArguments("start-maximized");
+        driver = new ChromeDriver(chromeOptions);
+    }
+
+    @AfterClass
+    public void tearDown(){
+        driver.quit();
+    }
+
+    @BeforeMethod
+    public void navigateToBaseUrl(){
+        driver.navigate().to(BASE_URL);
+        facebookLoginPage = PageFactory.initElements(driver, FacebookLoginPage.class);
+    }
+}
