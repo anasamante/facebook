@@ -1,7 +1,8 @@
 package tests;
 
 import base.BaseTest;
-import org.junit.Test;
+import org.testng.annotations.Test;
+
 
 public class FacebookTests extends BaseTest {
 

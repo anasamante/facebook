@@ -17,7 +17,7 @@ public class BaseTest {
     private ChromeOptions chromeOptions = new ChromeOptions();
     protected FacebookLoginPage facebookLoginPage;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", RESOURCES_PATH + CHROMEDRIVER);
         chromeOptions.addArguments("start-maximized");
