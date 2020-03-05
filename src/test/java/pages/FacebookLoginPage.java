@@ -1,13 +1,10 @@
 package pages;
 
 import base.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 
 
 public class FacebookLoginPage extends BasePage {
@@ -25,13 +22,13 @@ public class FacebookLoginPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//label[@id='loginbutton']")
     private WebElement btnSignIn;
 
-    @FindBy(how = How.XPATH, using = "//html[@id='facebook']//div[@id='feedx_sprouts_container']/div//span[@class='_5qtp']")
+    @FindBy(how = How.XPATH, using = "//span[text()='Crear publicación']")
     private WebElement postBox;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\'js_1v\']/div[1]/div/div[1]/div[1]/div[2]/div/div/div/div/div")
+    @FindBy(how = How.XPATH, using = "//div[@aria-autocomplete='list']")
     private WebElement postInput;
 
-    @FindBy(how = How.XPATH, using = "//*[@id=\'js_2p\']/div[2]/div[3]/div[2]/button")
+    @FindBy(how = How.XPATH, using = "//button//span[text()='Publicar']")
     private WebElement postBtn;
 
 
@@ -53,19 +50,30 @@ public class FacebookLoginPage extends BasePage {
         return PageFactory.initElements(driver, FacebookLoginPage.class);
     }
 
-    public boolean isHomeDisplayed() {
-        Assert.assertTrue(isElementPresent(By.xpath ("//div/a[@title='Profile']")));
-        System.out.println("Home is displayed");
-        return isHomeDisplayed;
-    }
-
+    //clicks the postbox making it editable.
     public void clickCreatePost(){
         click(this.postBox);
     }
 
-    public void createPost(String newPost){
+    //clicks on the input to type the message
+    public void createPost(String newPost) {
+        int attempt = 0;
+        boolean clicked = false;
+        do {
+            try {
         enterText(this.postInput, newPost);
-        }
+                clicked = true;
+            } catch (NoSuchElementException e) {
+                attempt++;
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (attempt < 3 && !clicked);
+    }
 
     public void clickPublishBtn() {
         click(this.postBtn);
