@@ -11,7 +11,6 @@ public class FacebookLoginPage extends BasePage {
 
 
     private WebDriver driver;
-    public boolean isHomeDisplayed;
 
     @FindBy(how = How.XPATH, using = "//input[@type='email']")
     private WebElement inputEmail;
